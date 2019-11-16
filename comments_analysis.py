@@ -1,3 +1,4 @@
+import numpy as np
 from googleapiclient import discovery
 from api_key import API_KEY
 
@@ -45,12 +46,6 @@ class CommentAnalyzer(object):
 
         # once the entire batch was scored, return the results in order
         self.batch_scores.sort(key=lambda x: int(x[1]))
-        print(self.batch_scores)
+        scores = np.array([score for request_id, score in self.batch_scores])
         self.batch_scores = []
-
-
-if __name__ == '__main__':
-    analyzer = CommentAnalyzer()
-    comments = ["hi everyone!", "how are you boy?!", "shut up!!!!", "what do you want from me?",
-             "is there anybody out there?", "is there anybody out there bitch?", "dagi", "dagadag"]
-    analyzer.score_batch(comments)
+        return scores
