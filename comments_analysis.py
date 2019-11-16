@@ -48,34 +48,9 @@ class CommentAnalyzer(object):
         print(self.batch_scores)
         self.batch_scores = []
 
-# def callback(response, exception):
-#     if exception is not None:
-#         print(exception)
-#     else:
-#         print(response)
-#         print(response["attributeScores"]["TOXICITY"]["summaryScore"]["value"])
-
 
 if __name__ == '__main__':
     analyzer = CommentAnalyzer()
     comments = ["hi everyone!", "how are you boy?!", "shut up!!!!", "what do you want from me?",
              "is there anybody out there?", "is there anybody out there bitch?", "dagi", "dagadag"]
     analyzer.score_batch(comments)
-
-    # service = discovery.build(serviceName='commentanalyzer', version="v1alpha1", developerKey=API_KEY)
-    #
-    # analyze_request = {
-    #   'comment': {'text': 'friendly greetings from python'},
-    #   'requestedAttributes': {'TOXICITY': {}}
-    # }
-    #
-    # # resource = service.comments()
-    # # new = resource.analyze(body=analyze_request)
-    # # response = new.execute()
-    # # response = service.comments().analyze(body=analyze_request).execute()
-    # # print(json.dumps(response, indent=2))
-    #
-    # batch = service.new_batch_http_request(callback=callback)
-    # batch.add(service.comments().analyze(body=analyze_request, fields="attributeScores"))
-    # batch.add(service.comments().analyze(body=analyze_request))
-    # batch.execute()
