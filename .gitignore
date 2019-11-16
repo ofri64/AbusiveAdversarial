@@ -109,3 +109,6 @@ api_key.py
 
 # ignore pycharm .idea folder
 .idea
+
+# ignore data folder
+jigsaw-toxic-comment-classification-challenge/
