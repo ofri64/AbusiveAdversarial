@@ -89,6 +89,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+advrs/
 
 # Spyder project settings
 .spyderproject
@@ -102,3 +103,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# ignore file containig google api key
+api_key.py
+
+# ignore pycharm .idea folder
+.idea
