@@ -1,0 +1,5 @@
+{
+	"bert_model_name": "bert-base-uncased"
+	,"label_dim": 2
+	,"num_hidden_features": 3 
+}
