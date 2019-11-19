@@ -4,16 +4,16 @@ from pytorch_pretrained_bert import BertModel
 
 
 class AbuseDetectNet(nn.Module):
-    def __init__(self, label_dim, num_hidden_features=3):
+    def __init__(self, config):
         super().__init__()
-        self.label_dim = label_dim
-        self.bert_base = BertModel.from_pretrained('bert-base-uncased')
-        self.num_hidden_features = num_hidden_features
+        self.label_dim = config.label_dim
+        self.bert_base = BertModel.from_pretrained(config.bert_model_name)
+        self.num_hidden_features = config.num_hidden_features
+        self.bert_hidden_size = self.bert_base.config.hidden_size
 
         # compute number of features to classification layer
-        bert_hidden_dim = 768
-        features_dim = bert_hidden_dim * num_hidden_features  # concat last hidden layers
-        self.cls_layer = nn.Linear(in_features=features_dim, out_features=label_dim)
+        features_dim = self.bert_hidden_size * self.num_hidden_features  # concat last hidden layers
+        self.cls_layer = nn.Linear(in_features=features_dim, out_features=self.label_dim)
 
     def forward(self, x):
         # switch bert model to eval mode (no fine tuning just features extraction)
