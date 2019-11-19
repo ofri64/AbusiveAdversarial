@@ -17,11 +17,11 @@ class AbuseDetectNet(nn.Module):
         self.cls_layer = nn.Linear(in_features=features_dim, out_features=self.label_dim)
         self.train_params = self.cls_layer.parameters()
 
-    def forward(self, x):
+    def forward(self, x, attention_mask):
         # switch bert model to eval mode (no fine tuning just features extraction)
         self.bert_base.eval()
 
-        encoded_layers, _ = self.bert_base(x)
+        encoded_layers, _ = self.bert_base(x, attention_mask=attention_mask)
         feature_layers = encoded_layers[-self.num_hidden_features:]
         feature_tensor = torch.cat(feature_layers, dim=2)  # concatenate on feature index
         first_token_tensor = feature_tensor[:, 0, :]  # getting tensor with shape [batch, features]
