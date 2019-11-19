@@ -8,7 +8,7 @@ class AbuseDetectNet(nn.Module):
         super().__init__()
         self.label_dim = label_dim
         self.bert_base = BertModel.from_pretrained('bert-base-uncased')
-        self.bert_base.eval()  # switch bert model to eval mode (no fine tuning just features extraction)
+
         self.num_hidden_features = num_hidden_features
 
         # compute number of features to classification layer
@@ -17,6 +17,8 @@ class AbuseDetectNet(nn.Module):
         self.cls_layer = nn.Linear(in_features=features_dim, out_features=label_dim)
 
     def forward(self, x):
+        # switch bert model to eval mode (no fine tuning just features extraction)
+        self.bert_base.eval()
         # reduce memory usage by not tracking gradients for bert model weights
         with torch.no_grad():
             encoded_layers, _ = self.bert_base(x)
