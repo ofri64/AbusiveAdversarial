@@ -7,10 +7,10 @@ RANDOM_STATE = 1
 
 
 def create_binary_label(data_df: pd.DataFrame) -> pd.DataFrame:
-    binary_df = data_df[["id", "comment_text"]]
     has_abuse_label = (data_df["toxic"] == 1) | (data_df["severe_toxic"] == 1) | (data_df["obscene"] == 1) | \
                       (data_df["threat"] == 1) | (data_df["insult"] == 1) | (data_df["identity_hate"] == 1)
-    binary_df["abuse"] = has_abuse_label.astype(np.int32)
+    data_df["abuse"] = has_abuse_label.astype(np.int32)
+    binary_df = data_df[["id", "comment_text", "abuse"]]
 
     return binary_df
 
@@ -29,17 +29,18 @@ def save_dataset(data_df: pd.DataFrame, filepath):
     data_df.to_csv(filepath)
 
 
-def create_data(filepath):
+def create_data(filepath, path_dir: Path):
     data = pd.read_csv(filepath)
     binary_data = create_binary_label(data)
     train_data, dev_data, test_data = split_dataset(binary_data)
 
-    save_dataset(train_data, "binary_train.csv")
-    save_dataset(dev_data, "binary_train.csv")
-    save_dataset(test_data, "binary_train.csv")
+    save_dataset(train_data, path_dir / "binary_train.csv")
+    save_dataset(dev_data, path_dir / "binary_dev.csv")
+    save_dataset(test_data, path_dir / "binary_test.csv")
 
 
 if __name__ == '__main__':
-    data_dir = Path().parent
-    data_file = data_dir / "jigsaw-toxic-comment-classification-challenge/train.csv"
-    create_data(data_file)
+    base_dir = Path().resolve().parent
+    data_dir = base_dir / "jigsaw-toxic-comment-classification-challenge"
+    data_file = data_dir / "train.csv"
+    create_data(data_file, data_dir)
