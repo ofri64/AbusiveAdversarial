@@ -8,6 +8,7 @@ class AbuseDetectNet(nn.Module):
         super().__init__()
         self.label_dim = label_dim
         self.bert_base = BertModel.from_pretrained('bert-base-uncased')
+        self.bert_base.eval()  # switch bert model to eval mode (no fine tuning just features extraction)
         self.num_hidden_features = num_hidden_features
 
         # compute number of features to classification layer
