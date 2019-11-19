@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from pytorch_pretrained_bert import BertTokenizer, BertModel
+from pytorch_pretrained_bert import BertModel
 
 
 class AbuseDetectNet(nn.Module):
