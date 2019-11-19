@@ -8,7 +8,6 @@ class AbuseDetectNet(nn.Module):
         super().__init__()
         self.label_dim = label_dim
         self.bert_base = BertModel.from_pretrained('bert-base-uncased')
-
         self.num_hidden_features = num_hidden_features
 
         # compute number of features to classification layer
@@ -19,7 +18,7 @@ class AbuseDetectNet(nn.Module):
     def forward(self, x):
         # switch bert model to eval mode (no fine tuning just features extraction)
         self.bert_base.eval()
-        
+
         encoded_layers, _ = self.bert_base(x)
         feature_layers = encoded_layers[-self.num_hidden_features:]
         feature_tensor = torch.cat(feature_layers, dim=2)  # concatenate on feature index
