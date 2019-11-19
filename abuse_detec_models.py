@@ -18,12 +18,11 @@ class AbuseDetectNet(nn.Module):
     def forward(self, x):
         # switch bert model to eval mode (no fine tuning just features extraction)
         self.bert_base.eval()
-        # reduce memory usage by not tracking gradients for bert model weights
-        with torch.no_grad():
-            encoded_layers, _ = self.bert_base(x)
-            feature_layers = encoded_layers[-self.num_hidden_features:]
-            feature_tensor = torch.cat(feature_layers, dim=2)  # concatenate on feature index
-            first_token_tensor = feature_tensor[:, 0, :]  # getting tensor with shape [batch, features]
 
+        encoded_layers, _ = self.bert_base(x)
+        feature_layers = encoded_layers[-self.num_hidden_features:]
+        feature_tensor = torch.cat(feature_layers, dim=2)  # concatenate on feature index
+        first_token_tensor = feature_tensor[:, 0, :]  # getting tensor with shape [batch, features]
         logits = self.cls_layer(first_token_tensor)
+
         return logits
