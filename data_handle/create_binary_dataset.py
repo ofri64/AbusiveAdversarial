@@ -26,7 +26,7 @@ def split_dataset(data_df: pd.DataFrame, split_ratios=(0.8, 0.15)):
 
 
 def save_dataset(data_df: pd.DataFrame, filepath):
-    data_df.to_csv(filepath)
+    data_df.to_csv(filepath, index=False)
 
 
 def create_data(filepath, path_dir: Path):
