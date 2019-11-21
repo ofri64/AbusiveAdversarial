@@ -10,10 +10,12 @@ class AbuseDetectNet(nn.Module):
         self.bert_base = BertModel.from_pretrained(config.bert_model_name)
         self.num_hidden_features = config.num_hidden_features
         self.bert_hidden_size = self.bert_base.config.hidden_size
+        self.bert_max_seq_length = self.bert_base.config.max_position_embeddings
 
         # compute number of features to classification layer
         features_dim = self.bert_hidden_size * self.num_hidden_features  # concat last hidden layers
         self.cls_layer = nn.Linear(in_features=features_dim, out_features=self.label_dim)
+        self.train_params = self.cls_layer.parameters()
 
     def forward(self, x):
         # switch bert model to eval mode (no fine tuning just features extraction)
